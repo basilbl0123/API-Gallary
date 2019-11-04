@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title></title>
+</head>
+<body>
+<div class="con">
+      <div class="row1" id="add1">
+      </div>
+  </div>
+  <div class="show" id="aa">
+      <div class="newAdd added " id="add">
+      </div>
+      <a href="#" id="close" class="close">&times;</a>
+      <div id="first" class="first">
+  </div>
+<script type="text/javascript">
+   document.getElementById('aa').addEventListener('click', renderGallary);
+let arr=[];
+const myheaders = new Headers();
+//myheaders.append('Authorization', 'Bearer 8VT6YgkhCDm2oYhl3hfbxtrt47IJsmv6cHG1');
+fetch('http://localhost:3000/photos' , {
+      method: 'GET',
+      headers: myheaders,
+  })
+  .then(Response => Response.json())
+  .then(result => (arr= result))
+      renderGallary() 
+
+function renderGallary(){
+  const html = arr.map((item, index) => {
+      return  '<img class="img1" src="' +item.url + '" data-id="' + index + '" onClick="togglePhoto(event)">';
+  });
+  document.getElementById('add1').innerHTML = html.join('');
+}
+function togglePhoto(event){
+  console.log(arr);
+  document.getElementById("aa").style.visibility = "visible"
+  const index = event.target.getAttribute('data-id');
+  console.log(index)
+  document.getElementById("add").innerHTML = '<div class= "imgDiv"><img   src="' + arr[index].url + '" class="img3"><div class="text-block">'+arr[index].title+' </div></div>';
+}
+document.getElementById("close").addEventListener('click', close);
+function close() {
+  document.getElementById("aa").style.visibility = "hidden";
+}
+</script>
+</body>
+</html>
